@@ -55,7 +55,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
         let movie = self.movies[indexPath.row]
         
-        cell.titleLabel.text = movie.title
+        cell.movie = movie
+//        cell.titleLabel.text = movie.title
         return cell
     }
     

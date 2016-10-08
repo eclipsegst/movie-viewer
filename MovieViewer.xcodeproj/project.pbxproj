@@ -134,7 +134,7 @@
 		3AC7F2381D9868B5008656F5 /* MovieViewer */ = {
 			isa = PBXGroup;
 			children = (
-				3AE6331E1DA6FFDF00DFD5F9 /* views */,
+				3AE6331E1DA6FFDF00DFD5F9 /* Views */,
 				3AC7F2671D986938008656F5 /* MoviesViewController.swift */,
 				3AE633241DA7026B00DFD5F9 /* MovieDetailViewController.swift */,
 				3AC7F2691D986C5E008656F5 /* Constants.swift */,
@@ -167,13 +167,13 @@
 			path = MovieViewerUITests;
 			sourceTree = "<group>";
 		};
-		3AE6331E1DA6FFDF00DFD5F9 /* views */ = {
+		3AE6331E1DA6FFDF00DFD5F9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				3AE6331F1DA6FFFD00DFD5F9 /* MovieCell.swift */,
 				3AE633201DA6FFFD00DFD5F9 /* MovieCell.xib */,
 			);
-			name = views;
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
