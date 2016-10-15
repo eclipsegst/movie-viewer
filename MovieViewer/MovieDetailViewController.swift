@@ -9,15 +9,19 @@
 import UIKit
 import RealmSwift
 
-class MovieDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class MovieDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
     let TAG = NSStringFromClass(MovieDetailViewController.self)
     
     let tableViewCellHeight: CGFloat = 200
     let videoCell = "VideoCell"
     let playerViewControllerSegueId = "PlayerViewControllerSegueId"
+    let headerHeight: CGFloat = 180
+    let headerTopMargin: CGFloat = 72
     
+    @IBOutlet var headerHeightConstraint: NSLayoutConstraint!
     @IBOutlet var tableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet var overviewLabel: UILabel!
+    @IBOutlet var headerTopConstraint: NSLayoutConstraint!
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var posterImageView: UIImageView!
     @IBOutlet var backdropImageView: UIImageView!
@@ -28,6 +32,8 @@ class MovieDetailViewController: UIViewController, UITableViewDataSource, UITabl
     @IBOutlet var voteCountLabel: UILabel!
     @IBOutlet var generLabel: UILabel!
     @IBOutlet var tableView: UITableView!
+    @IBOutlet var scrollView: UIScrollView!
+    @IBOutlet var videosView: UIView!
     
     var movieId: String! {
         didSet {
@@ -59,8 +65,13 @@ class MovieDetailViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     func invalidateViews() {
+        self.headerTopConstraint.constant = self.headerTopMargin
         self.videos = Array(movie.getAllVideos())
         self.tableViewHeightConstraint.constant = self.tableViewCellHeight * CGFloat(self.videos.count)
+        self.tableView.reloadData()
+        if self.videos.count == 0 {
+            self.videosView.heightAnchor.constraint(equalToConstant: 0).isActive = true
+        }
         
         self.titleLabel.text = self.movie.title
         self.overviewLabel.text = self.movie.overview
@@ -90,11 +101,11 @@ class MovieDetailViewController: UIViewController, UITableViewDataSource, UITabl
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM dd, yyyy"
         self.releaseDateLabel.text = dateFormatter.string(from: movie.releaseDate)
-        self.popularityLabel.text = String(format: "Popularity: %.1f", self.movie.popularity)
+        self.popularityLabel.text = String(format: "%.1f", self.movie.popularity)
         print("runtime:\(self.movie.runtime)")
         self.runtimeLabel.text = String(self.getRuntime(runtime: self.movie.runtime))
-        self.voteAverageLabel.text = String("Average: \(self.movie.voteAverage)")
-        self.voteCountLabel.text = String("Average Count: \(self.movie.voteCount)")
+        self.voteAverageLabel.text = String("\(self.movie.voteAverage)")
+        self.voteCountLabel.text = String("\(self.movie.voteCount)")
         
         if let genres = self.movie.getGenres() {
             var genreNames = ""
@@ -117,10 +128,6 @@ class MovieDetailViewController: UIViewController, UITableViewDataSource, UITabl
         let url = URL(string: "http://img.youtube.com/vi/\(video.key)/0.jpg")!
         cell.thumbnailImageView.setImageWith(url)
         
-//        let backgroundView = UIView()
-//        backgroundView.backgroundColor = UIColor.orange
-//        cell.selectedBackgroundView = backgroundView
-        
         return cell
     }
     
@@ -136,6 +143,15 @@ class MovieDetailViewController: UIViewController, UITableViewDataSource, UITabl
         if segue.identifier == self.playerViewControllerSegueId {
             let playerViewController = segue.destination as! PlayerViewController
             playerViewController.youTubeKey = self.videos[(self.tableView.indexPathForSelectedRow?.row)!].key
+        }
+    }
+    
+    // MARK: - UIScrollViewDelegate
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {        
+        if self.scrollView.contentOffset.y < 0 {
+            self.headerHeightConstraint.constant = self.headerHeight + abs(self.scrollView.contentOffset.y)
+            self.headerTopConstraint.constant = -abs(self.scrollView.contentOffset.y) + headerTopMargin
+            self.view.needsUpdateConstraints()
         }
     }
     
@@ -197,7 +213,7 @@ class MovieDetailViewController: UIViewController, UITableViewDataSource, UITabl
         let min = runtime % 60
         
         if hour > 0 {
-            runtimeString += "\(hour) h "
+            runtimeString += "\(hour)h "
         }
         
         if min > 0 {

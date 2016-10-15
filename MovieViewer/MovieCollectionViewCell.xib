@@ -16,19 +16,29 @@
                 <rect key="frame" x="0.0" y="0.0" width="255" height="350"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dmW-3n-sIE">
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dmW-3n-sIE">
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BnW-LT-g2T"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BnW-LT-g2T">
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <integer key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </imageView>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="BnW-LT-g2T" firstAttribute="trailing" secondItem="dmW-3n-sIE" secondAttribute="trailingMargin" constant="2" id="JcR-zA-wzq"/>
-                            <constraint firstItem="BnW-LT-g2T" firstAttribute="leading" secondItem="dmW-3n-sIE" secondAttribute="leadingMargin" constant="2" id="MkZ-HP-FRd"/>
+                            <constraint firstItem="BnW-LT-g2T" firstAttribute="trailing" secondItem="dmW-3n-sIE" secondAttribute="trailingMargin" id="JcR-zA-wzq"/>
+                            <constraint firstItem="BnW-LT-g2T" firstAttribute="leading" secondItem="dmW-3n-sIE" secondAttribute="leadingMargin" id="MkZ-HP-FRd"/>
                             <constraint firstAttribute="width" constant="240" id="W3H-fj-J0y"/>
                             <constraint firstItem="BnW-LT-g2T" firstAttribute="top" secondItem="dmW-3n-sIE" secondAttribute="topMargin" id="eG1-Gp-dpe"/>
                             <constraint firstAttribute="height" constant="320" id="uB1-mi-LOL"/>
                             <constraint firstItem="BnW-LT-g2T" firstAttribute="bottom" secondItem="dmW-3n-sIE" secondAttribute="bottomMargin" id="zX1-3g-7we"/>
                         </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <integer key="value" value="8"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </view>
                 </subviews>
             </view>

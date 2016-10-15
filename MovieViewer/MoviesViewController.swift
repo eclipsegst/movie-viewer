@@ -52,6 +52,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     var isListView: Bool = true
     var isFavoriteOnly: Bool = false
     
+    @IBOutlet var noResultsLabel: UILabel!
     @IBOutlet var heartButton: UIBarButtonItem!
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var listGridViewBarButton: UIBarButtonItem!
@@ -92,9 +93,9 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .vertical
-        flowLayout.sectionInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
+        flowLayout.sectionInset = UIEdgeInsets(top: 10, left: 4, bottom: 10, right: 4)
         let screenWidth = UIScreen.main.bounds.width;
-        flowLayout.itemSize = CGSize(width: screenWidth/3 - 4, height: 200);
+        flowLayout.itemSize = CGSize(width: screenWidth/3 - 8, height: 200);
         flowLayout.minimumInteritemSpacing = 0
         flowLayout.minimumLineSpacing = 10
         self.collectionView.collectionViewLayout = flowLayout
@@ -109,7 +110,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         self.collectionView.isHidden = self.isListView
         
         self.movies = self.searchText == "" ? self.allMovies : self.allMovies.filter({$0.title.lowercased().contains(self.searchText.lowercased())})
-
+        self.noResultsLabel.isHidden = self.movies.count != 0
         
         if self.isFavoriteOnly {
             self.movies = self.movies.filter({$0.isHearted == true})
@@ -163,7 +164,6 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.searchController.isActive = false
         performSegue(withIdentifier: self.movieDetailViewControllerSegueId, sender: tableView)
-        self.tableView.deselectRow(at: indexPath, animated: true)
     }
     
     // MARK: - UICollectionDataSource
@@ -190,7 +190,6 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     // MARK: UICollectionDelegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         performSegue(withIdentifier: self.movieDetailViewControllerSegueId, sender: collectionView)
-        self.collectionView.deselectItem(at: indexPath, animated: true)
     }
     
     // MARK: - Segue
@@ -296,9 +295,6 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         self.stackView.addArrangedSubview(errorLabel)
         self.stackView.translatesAutoresizingMaskIntoConstraints = false;
         self.view.addSubview(stackView)
-        
-        //self.stackView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 74.0).isActive = true
-        //self.stackView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
     }
     
     func hideErrorLabel() {

@@ -15,6 +15,7 @@ class MovieCell: UITableViewCell {
         didSet {
             self.titleLabel.text = movie.title
             self.voteAverageLabel.text = String(movie.voteAverage)
+            self.voteAverageLabel.isHidden = movie.voteAverage <= 0
             self.overviewLabel.text = movie.overview
             
             let dateFormatter = DateFormatter()
@@ -28,6 +29,8 @@ class MovieCell: UITableViewCell {
                 UIView.animate(withDuration: 1, animations: {
                     self.posterImageView.alpha = 1.0
                 })
+                self.posterImageView.layer.cornerRadius = 2
+                self.posterImageView.layer.masksToBounds = true
             }
             
             let heartIconBorder = UIImage(named: "for_you_border_icon")

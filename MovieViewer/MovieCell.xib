@@ -80,11 +80,11 @@
                     </button>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="Fyn-lV-4sK" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="31v-R2-D7Q"/>
+                    <constraint firstItem="Fyn-lV-4sK" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="4" id="31v-R2-D7Q"/>
                     <constraint firstItem="Fyn-lV-4sK" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="4" id="KHl-Zw-T7R"/>
                     <constraint firstAttribute="trailing" secondItem="eEO-zB-e2y" secondAttribute="trailing" constant="34" id="STN-Vx-w5Z"/>
                     <constraint firstAttribute="trailing" secondItem="IZp-n1-fGZ" secondAttribute="trailing" constant="-2" id="Ugg-4d-kZ4"/>
-                    <constraint firstItem="eEO-zB-e2y" firstAttribute="leading" secondItem="Fyn-lV-4sK" secondAttribute="trailing" constant="4" id="WWL-wd-5Jf"/>
+                    <constraint firstItem="eEO-zB-e2y" firstAttribute="leading" secondItem="Fyn-lV-4sK" secondAttribute="trailing" constant="8" id="WWL-wd-5Jf"/>
                     <constraint firstItem="IZp-n1-fGZ" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Zio-yc-jth"/>
                     <constraint firstItem="eEO-zB-e2y" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="4" id="eAr-1P-PGl"/>
                     <constraint firstAttribute="bottom" secondItem="eEO-zB-e2y" secondAttribute="bottom" constant="4" id="nIk-mR-Lmf"/>
