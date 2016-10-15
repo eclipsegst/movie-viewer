@@ -29,7 +29,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         Realm.Configuration.defaultConfiguration = realmConfig
-        realm = try! Realm()
+        self.realm = try! Realm()
+        
+        self.window = UIWindow(frame: UIScreen.main.bounds)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let nowPlayingNavigationController = storyboard.instantiateViewController(withIdentifier: "MoviesNavigationControllerId") as! UINavigationController
+        let nowPlayingViewController = nowPlayingNavigationController.topViewController as! MoviesViewController
+        nowPlayingViewController.movieType = MovieType.nowPlaying
+        nowPlayingNavigationController.tabBarItem.title = "Now Playing"
+        nowPlayingNavigationController.tabBarItem.image = UIImage(named: "movie_icon")
+        
+        let topRatedNavigationController = storyboard.instantiateViewController(withIdentifier: "MoviesNavigationControllerId") as! UINavigationController
+        let topRatedViewController = topRatedNavigationController.topViewController as! MoviesViewController
+        topRatedViewController.movieType = MovieType.topRated
+        topRatedNavigationController.tabBarItem.title = "Top Rated"
+        topRatedNavigationController.tabBarItem.image = UIImage(named: "star_icon")
+        
+        let favoriteNavigationController = storyboard.instantiateViewController(withIdentifier: "MoviesNavigationControllerId") as! UINavigationController
+        let favoriteViewController = favoriteNavigationController.topViewController as! MoviesViewController
+        favoriteViewController.movieType = nil
+        favoriteNavigationController.tabBarItem.title = "Favorite"
+        favoriteNavigationController.tabBarItem.image = UIImage(named: "heart_icon")
+        
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = [nowPlayingNavigationController, topRatedNavigationController, favoriteNavigationController]
+        tabBarController.tabBar.tintColor = UIColor.orange
+        tabBarController.tabBar.barStyle = .black
+        tabBarController.tabBar.barTintColor = UIColor.black
+        self.window?.rootViewController = tabBarController
+        self.window?.makeKeyAndVisible()
+        
+        Genre.sync()
         
         return true
     }
