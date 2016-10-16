@@ -2,7 +2,7 @@
 
 **Movie Viewer** is a movies app using the [The Movie Database API](http://docs.themoviedb.apiary.io/#).
 
-Time spent: **18** hours spent in total
+Time spent: **20** hours spent in total
 
 ## User Stories
 
@@ -29,10 +29,22 @@ The following **additional** features are implemented:
 - [X] User can like or unlike a movie
 - [X] User can watch movie trailers
 - [X] Use Realm to persist data locally
+- [X] Design icons and logos using Sketch
+- [X] Add placeholder image for loading and movies that don't have a poster
 
 ## Libraries and tools used
+- [AFNetworking](https://github.com/AFNetworking/AFNetworking) - A delightful networking framework for iOS, OS X, watchOS, and tvOS.
 - [Realm](http://realm.io) - Realm is a mobile database: a replacement for SQLite & ORMs.
 - [MBProgressHUD](https://github.com/jdg/MBProgressHUD) - MBProgressHUD is an iOS drop-in class that displays a translucent HUD with an indicator and/or labels while work is being done in a background thread.
+
+## Video Walkthrough 
+
+Here's a walkthrough of implemented user stories:
+
+![Video Walkthrough](movie_viewer.gif)
+![Video Walkthrough 2](movie_viewer_2.gif)
+
+GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## License
 

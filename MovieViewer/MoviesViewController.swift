@@ -42,6 +42,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     var searchController: UISearchController!
     var searchText: String = "" {
         didSet {
+            print("searchText didSet:\(self.searchText)")
             if self.searchText == oldValue {
                 return
             }
@@ -51,6 +52,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     }
     var isListView: Bool = true
     var isFavoriteOnly: Bool = false
+    var selectedMovieId: String!
     
     @IBOutlet var noResultsLabel: UILabel!
     @IBOutlet var heartButton: UIBarButtonItem!
@@ -95,7 +97,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         flowLayout.scrollDirection = .vertical
         flowLayout.sectionInset = UIEdgeInsets(top: 10, left: 4, bottom: 10, right: 4)
         let screenWidth = UIScreen.main.bounds.width;
-        flowLayout.itemSize = CGSize(width: screenWidth/3 - 8, height: 200);
+        flowLayout.itemSize = CGSize(width: screenWidth/3 - 8, height: 140);
         flowLayout.minimumInteritemSpacing = 0
         flowLayout.minimumLineSpacing = 10
         self.collectionView.collectionViewLayout = flowLayout
@@ -105,12 +107,10 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func invalidateViews() {
-        print("invalidateViews")
         self.tableView.isHidden = !self.isListView
         self.collectionView.isHidden = self.isListView
         
         self.movies = self.searchText == "" ? self.allMovies : self.allMovies.filter({$0.title.lowercased().contains(self.searchText.lowercased())})
-        self.noResultsLabel.isHidden = self.movies.count != 0
         
         if self.isFavoriteOnly {
             self.movies = self.movies.filter({$0.isHearted == true})
@@ -131,6 +131,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                 self.collectionView.reloadData()
             }
         }
+        
+        self.noResultsLabel.isHidden = self.movies.count != 0
     }
     
     @IBAction func listGridViewBarButtonOnClick(_ sender: AnyObject) {
@@ -162,6 +164,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     
     // MARK - UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.selectedMovieId = self.movies[indexPath.row].id
         self.searchController.isActive = false
         performSegue(withIdentifier: self.movieDetailViewControllerSegueId, sender: tableView)
     }
@@ -182,6 +185,12 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
             UIView.animate(withDuration: 1, animations: {
                 cell.posterImageView.alpha = 1.0
             })
+            cell.movieTitleLabel.isHidden = true
+        } else {
+            cell.movieTitleLabel.text = movie.title
+            cell.movieTitleLabel.sizeToFit()
+            cell.movieTitleLabel.isHidden = false
+            cell.posterImageView.image = UIImage(named: "placeholder")
         }
         
         return cell
@@ -196,8 +205,14 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == self.movieDetailViewControllerSegueId {
             let movieDetailViewController = segue.destination as! MovieDetailViewController
-            let indexPath = sender is UITableView ? self.tableView.indexPathForSelectedRow : self.collectionView.indexPathsForSelectedItems?.first
-            movieDetailViewController.movieId = self.movies[indexPath!.row].id
+            var movieId = ""
+            if sender is UITableView {
+                movieId = self.selectedMovieId
+            } else {
+                movieId = self.movies[(self.collectionView.indexPathsForSelectedItems?.first!.row)!].id
+            }
+            
+            movieDetailViewController.movieId = movieId
         }
     }
     
@@ -207,13 +222,14 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func networkRequest() {
+        print("networkRequest")
         if self.movieType == nil {
             return
         }
         
         let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
         loadingNotification.mode = MBProgressHUDMode.indeterminate
-        loadingNotification.bezelView.color = UIColor.orange
+//        loadingNotification.bezelView.color = UIColor.orange
         loadingNotification.label.text = "Loading"
         
         let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"

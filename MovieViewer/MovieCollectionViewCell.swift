@@ -9,7 +9,9 @@
 import UIKit
 
 class MovieCollectionViewCell: UICollectionViewCell {
+    @IBOutlet var movieTitleLabel: UILabel!
 
+    @IBOutlet var titleLabel: NSLayoutConstraint!
     @IBOutlet var posterImageView: UIImageView!
     
     override func awakeFromNib() {

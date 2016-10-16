@@ -65,6 +65,7 @@ class MovieDetailViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     func invalidateViews() {
+        print("invalidateViews")
         self.headerTopConstraint.constant = self.headerTopMargin
         self.videos = Array(movie.getAllVideos())
         self.tableViewHeightConstraint.constant = self.tableViewCellHeight * CGFloat(self.videos.count)
@@ -114,6 +115,7 @@ class MovieDetailViewController: UIViewController, UITableViewDataSource, UITabl
             }
             
             self.generLabel.text = genreNames
+            self.generLabel.sizeToFit()
         }
     }
     
