@@ -43,7 +43,6 @@ The following **additional** features are implemented:
 Here's a walkthrough of implemented user stories:
 
 ![Video Walkthrough](movie_viewer.gif)
-![Video Walkthrough 2](movie_viewer_2.gif)
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
