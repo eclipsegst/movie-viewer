@@ -36,12 +36,17 @@ class MovieDetailViewController: UIViewController, UITableViewDataSource, UITabl
         }
     }
     
+    var isLoadingLowResImage = false
+    var isLoadingHighResImage = false
+    var isLoadingPosterComplete = false
+    
     @IBOutlet var headerHeightConstraint: NSLayoutConstraint!
     @IBOutlet var tableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet var overviewLabel: UILabel!
     @IBOutlet var headerTopConstraint: NSLayoutConstraint!
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var posterImageView: UIImageView!
+    @IBOutlet var lowResPosterImageView: UIImageView!
     @IBOutlet var backdropImageView: UIImageView!
     @IBOutlet var releaseDateLabel: UILabel!
     @IBOutlet var runtimeLabel: UILabel!
@@ -58,6 +63,8 @@ class MovieDetailViewController: UIViewController, UITableViewDataSource, UITabl
         self.realm = AppDelegate.getInstance().realm!
         
         self.tableView.register(UINib(nibName: self.videoCell, bundle: nil), forCellReuseIdentifier: self.videoCell)
+        self.isLoadingPosterComplete = false
+        self.posterImageView.alpha = 0.5
         
         invalidateViews()
         self.sync()
@@ -89,12 +96,38 @@ class MovieDetailViewController: UIViewController, UITableViewDataSource, UITabl
         }
         
         if let posterPath = movie.posterPath {
-            let url = URL(string: "\(Constants.imageW342Url)\(posterPath)")!
-            self.posterImageView.alpha = 0.0
-            self.posterImageView.setImageWith(url, placeholderImage: UIImage(named:"placeholder"))
-            UIView.animate(withDuration: 1, animations: {
-                self.posterImageView.alpha = 1.0
-            })
+            if !self.isLoadingPosterComplete {
+                
+                if !self.isLoadingLowResImage {
+                    let lowResUrl = "\(Constants.imageW45Url)\(posterPath)"
+                    let lowResPoster = URL(string:  lowResUrl)
+                    let lowResPosterURLRequest = URLRequest(url: lowResPoster!)
+                    print("start loading low res")
+                    posterImageView.setImageWith(lowResPosterURLRequest, placeholderImage: UIImage(named: "placeholder"), success: { (imageRequest, imageResponse, image) -> Void in
+                        self.lowResPosterImageView.image = image
+                        }, failure: nil)
+                }
+                
+                if !self.isLoadingHighResImage {
+                    let highResUrl = "\(Constants.imageW342Url)\(posterPath)"
+                    let highResPoster = URL(string:  highResUrl)
+                    let highResPosterURLRequest = URLRequest(url: highResPoster!)
+                    print("start loading high res")
+                    posterImageView.setImageWith(highResPosterURLRequest, placeholderImage: nil, success: { (imageRequest, imageResponse, image) -> Void in
+                        if !self.isLoadingPosterComplete {
+                            self.posterImageView.image = image
+                        }
+                        
+                        self.isLoadingPosterComplete = true
+                        
+                        UIView.animate(withDuration: 1, animations: {
+                            self.lowResPosterImageView.alpha = 0.0
+                            self.posterImageView.alpha = 1.0
+                        })
+                        
+                    }, failure: nil)
+                }
+            }
         }
         
         let dateFormatter = DateFormatter()

@@ -2,7 +2,7 @@
 
 **Movie Viewer** is a movies app using the [The Movie Database API](http://docs.themoviedb.apiary.io/#).
 
-Time spent: **20** hours spent in total
+Time spent: **22** hours spent in total
 
 ## User Stories
 
@@ -20,7 +20,7 @@ The following **optional** features are implemented:
 - [X] Implement segmented control(Switch Icon) to switch between list view and grid view.
 - [X] Add a search bar.
 - [X] All images fade in.
-- [ ] For the large poster, load the low-res image first, switch to high-res when complete.
+- [X] For the large poster, load the low-res image first, switch to high-res when complete.
 - [X] Customize the highlight and selection effect of the cell.
 - [X] Customize the navigation bar.
 

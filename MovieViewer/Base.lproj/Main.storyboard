@@ -103,6 +103,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="86n-yc-bsa"/>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UgG-S4-Oak"/>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vBo-7h-3l7">
                                 <subviews>
@@ -378,13 +379,17 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="vBo-7h-3l7" firstAttribute="top" secondItem="9PW-cN-o85" secondAttribute="topMargin" id="2cU-HO-XGi"/>
+                            <constraint firstAttribute="bottom" secondItem="86n-yc-bsa" secondAttribute="bottom" constant="64" id="5Jb-sY-FcR"/>
                             <constraint firstAttribute="bottomMargin" secondItem="vBo-7h-3l7" secondAttribute="bottom" id="C09-bR-ONb"/>
-                            <constraint firstItem="UgG-S4-Oak" firstAttribute="top" secondItem="9PW-cN-o85" secondAttribute="topMargin" constant="34" id="PuR-Xc-pay"/>
-                            <constraint firstAttribute="bottomMargin" secondItem="UgG-S4-Oak" secondAttribute="bottom" constant="34" id="XfS-bp-iV7"/>
-                            <constraint firstItem="UgG-S4-Oak" firstAttribute="leading" secondItem="9PW-cN-o85" secondAttribute="leading" constant="8" id="mdT-nI-eVR"/>
+                            <constraint firstItem="86n-yc-bsa" firstAttribute="leading" secondItem="9PW-cN-o85" secondAttribute="leading" id="HZS-Cx-Uuk"/>
+                            <constraint firstItem="86n-yc-bsa" firstAttribute="top" secondItem="9PW-cN-o85" secondAttribute="top" constant="64" id="M0c-ce-OuY"/>
+                            <constraint firstItem="UgG-S4-Oak" firstAttribute="top" secondItem="9PW-cN-o85" secondAttribute="top" constant="64" id="PuR-Xc-pay"/>
+                            <constraint firstAttribute="bottom" secondItem="UgG-S4-Oak" secondAttribute="bottom" constant="64" id="XfS-bp-iV7"/>
+                            <constraint firstAttribute="trailing" secondItem="86n-yc-bsa" secondAttribute="trailing" id="hxq-cr-prq"/>
+                            <constraint firstItem="UgG-S4-Oak" firstAttribute="leading" secondItem="9PW-cN-o85" secondAttribute="leading" id="mdT-nI-eVR"/>
                             <constraint firstAttribute="trailing" secondItem="vBo-7h-3l7" secondAttribute="trailing" id="wWC-4x-GEl"/>
                             <constraint firstItem="vBo-7h-3l7" firstAttribute="leading" secondItem="9PW-cN-o85" secondAttribute="leading" id="x0c-i3-9HB"/>
-                            <constraint firstAttribute="trailing" secondItem="UgG-S4-Oak" secondAttribute="trailing" constant="8" id="zTF-dO-NZv"/>
+                            <constraint firstAttribute="trailing" secondItem="UgG-S4-Oak" secondAttribute="trailing" id="zTF-dO-NZv"/>
                         </constraints>
                     </view>
                     <connections>
@@ -392,6 +397,7 @@
                         <outlet property="generLabel" destination="TEf-DC-1WN" id="Za9-6f-jLM"/>
                         <outlet property="headerHeightConstraint" destination="2X8-mv-6Ke" id="QgF-Z1-PpN"/>
                         <outlet property="headerTopConstraint" destination="S6V-h9-sZ2" id="HRg-NB-bqm"/>
+                        <outlet property="lowResPosterImageView" destination="86n-yc-bsa" id="7TL-x9-Mxb"/>
                         <outlet property="overviewLabel" destination="tTA-hh-TtU" id="AW2-oN-GGc"/>
                         <outlet property="popularityLabel" destination="VQQ-Ew-nyO" id="Q0M-CG-qVY"/>
                         <outlet property="posterImageView" destination="UgG-S4-Oak" id="l6Q-Xv-EyO"/>
