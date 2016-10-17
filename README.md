@@ -31,6 +31,7 @@ The following **additional** features are implemented:
 - [X] Use Realm to persist data locally
 - [X] Design icons and logos using Sketch
 - [X] Add placeholder image for loading and movies that don't have a poster
+- [X] Customize launch screen
 
 ## Libraries and tools used
 - [AFNetworking](https://github.com/AFNetworking/AFNetworking) - A delightful networking framework for iOS, OS X, watchOS, and tvOS.

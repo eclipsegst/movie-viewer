@@ -18,6 +18,24 @@ class MovieDetailViewController: UIViewController, UITableViewDataSource, UITabl
     let headerHeight: CGFloat = 180
     let headerTopMargin: CGFloat = 72
     
+    var movieId: String! {
+        didSet {
+            self.movie = Movie.getMovieById(id: self.movieId)
+        }
+    }
+    
+    var movie: Movie!
+    var videos: [Video] = []
+    
+    var notificationToken: NotificationToken?
+    var realm: Realm! {
+        didSet{
+            self.notificationToken = self.realm!.addNotificationBlock({ [weak self] (notification, realm) in
+                self!.invalidateViews()
+                })
+        }
+    }
+    
     @IBOutlet var headerHeightConstraint: NSLayoutConstraint!
     @IBOutlet var tableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet var overviewLabel: UILabel!
@@ -34,24 +52,6 @@ class MovieDetailViewController: UIViewController, UITableViewDataSource, UITabl
     @IBOutlet var tableView: UITableView!
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var videosView: UIView!
-    
-    var movieId: String! {
-        didSet {
-            self.movie = Movie.getMovieById(id: self.movieId)
-        }
-    }
-    
-    var movie: Movie!
-    var videos: [Video] = []
-    
-    var notificationToken: NotificationToken?
-    var realm: Realm! {
-        didSet{
-            self.notificationToken = self.realm!.addNotificationBlock({ [weak self] (notification, realm) in
-                self!.invalidateViews()
-            })
-        }
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,21 +89,18 @@ class MovieDetailViewController: UIViewController, UITableViewDataSource, UITabl
         }
         
         if let posterPath = movie.posterPath {
-            print(posterPath)
-            let url = URL(string: "https://image.tmdb.org/t/p/original\(posterPath)")!
+            let url = URL(string: "\(Constants.imageW342Url)\(posterPath)")!
             self.posterImageView.alpha = 0.0
-            self.posterImageView.setImageWith(url)
+            self.posterImageView.setImageWith(url, placeholderImage: UIImage(named:"placeholder"))
             UIView.animate(withDuration: 1, animations: {
                 self.posterImageView.alpha = 1.0
             })
-            print(posterPath)
         }
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM dd, yyyy"
         self.releaseDateLabel.text = dateFormatter.string(from: movie.releaseDate)
         self.popularityLabel.text = String(format: "%.1f", self.movie.popularity)
-        print("runtime:\(self.movie.runtime)")
         self.runtimeLabel.text = String(self.getRuntime(runtime: self.movie.runtime))
         self.voteAverageLabel.text = String("\(self.movie.voteAverage)")
         self.voteCountLabel.text = String("\(self.movie.voteCount)")
@@ -135,7 +132,6 @@ class MovieDetailViewController: UIViewController, UITableViewDataSource, UITabl
     
     // MARK - UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        PlayerViewControllerSegueId
         performSegue(withIdentifier: self.playerViewControllerSegueId, sender: tableView)
         self.tableView.deselectRow(at: indexPath, animated: true)
     }
